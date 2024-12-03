@@ -33,6 +33,14 @@ jobs:
         with:
           distribution: "zulu"
           java-version: "17"
-      
+
+      - name: Cache
+        uses: actions/cache@v4.1.2
+        with:
+          path: ${{ github.workspace }}/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles("**/pom.xml") }}
+
       - name: Create JAR
         run: mvn clean package -DskipTests -Djar.finalName=helloworld-$PROJECT_VERSION
+        env:
+          MAVEN_OPTS: "-Dmaven.repo.local=${{ github.workspace }}/.m2/repository"
