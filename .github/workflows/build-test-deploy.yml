@@ -41,7 +41,41 @@ jobs:
           path: ${{ github.workspace }}/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
 
-      - name: Create JAR
+      - name: Build project with Maven
         run: mvn clean package -DskipTests -Djar.finalName=helloworld-$PROJECT_VERSION
+        env:
+          MAVEN_OPTS: "-Dmaven.repo.local=${{ github.workspace }}/.m2/repository"
+  
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Before Checkout
+        run: ls
+    
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: After Checkout
+        run: ls
+        
+      - name: Project Version
+        run: echo $PROJECT_VERSION
+        
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.5.0
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - name: Cache
+        uses: actions/cache@v4.1.2
+        with:
+          path: ${{ github.workspace }}/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+
+      - name: Test with Maven
+        run: mvn test
         env:
           MAVEN_OPTS: "-Dmaven.repo.local=${{ github.workspace }}/.m2/repository"
