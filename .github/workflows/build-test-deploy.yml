@@ -16,9 +16,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Before Checkout
+        run: ls
+    
       - name: Checkout
         uses: actions/checkout@v4.2.2
-        
+
+      - name : After Checkout
       - name: Project Version
         run: echo $PROJECT_VERSION
         
@@ -29,4 +33,4 @@ jobs:
           java-version: "17"
       
       - name: Create JAR
-        run: mvn clean package -DskipTests -Djar.finalName=helloworld-$PROJECT_VERSION.jar
+        run: mvn clean package -DskipTests -Djar.finalName=helloworld-$PROJECT_VERSION
