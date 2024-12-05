@@ -52,7 +52,7 @@ jobs:
           # Artifact name
           name: helloworld-${{ env.PROJECT_VERSION }}.jar
           # A file, directory or wildcard pattern that describes what to upload
-          path: target/helloworld-1.0-SNAPSHOT.jar
+          path: /home/runner/work/helloworld-java/helloworld-java/target/helloworld-1.0.0.jar
   
   test:
     name: Test
